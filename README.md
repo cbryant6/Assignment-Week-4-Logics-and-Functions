@@ -1,4 +1,4 @@
-#Password Update 
+# Password Update 
 
 ```python
 import re
@@ -61,7 +61,7 @@ def password_score(pw: str) -> Tuple[str, int]:
     return label, score
 
 
-# quick check with your prior tests
+# quick check with prior tests
 if __name__ == "__main__":
     tests = [
         "P@ssw0rd",
@@ -72,3 +72,56 @@ if __name__ == "__main__":
     ]
     for t in tests:
         print(t, "->", password_score(t))
+
+```
+
+# Tic-Tac-Toe New Code
+
+```python
+
+def find_winner(board: list[list[str]]) -> str:
+    """
+    Determine the winner of a square Tic-Tac-Toe board.
+
+    Each cell is "X", "O", or "".
+    Returns:
+        "X"       -> if X wins
+        "O"       -> if O wins
+        "Draw"    -> if board full and no winner
+        "Pending" -> if empty cells remain
+    """
+    n = len(board)
+
+    # rows & cols
+    for i in range(n):
+        # row
+        if board[i][0] != "" and all(board[i][j] == board[i][0] for j in range(n)):
+            return board[i][0]
+        # column
+        if board[0][i] != "" and all(board[j][i] == board[0][i] for j in range(n)):
+            return board[0][i]
+
+    # diagonals
+    if board[0][0] != "" and all(board[i][i] == board[0][0] for i in range(n)):
+        return board[0][0]
+    if board[0][n - 1] != "" and all(board[i][n - 1 - i] == board[0][n - 1] for i in range(n)):
+        return board[0][n - 1]
+
+    # empty cells?
+    if any("" in row for row in board):
+        return "Pending"
+
+    return "Draw"
+
+
+# sample board
+board = [
+    ["O", "X", "X"],
+    ["X", "X", "O"],
+    ["O", "X", "X"]
+]
+
+print("\n=== Tic-Tac-Toe Winner ===")
+print("Winner:", find_winner(board))  # -> 'X'
+
+
